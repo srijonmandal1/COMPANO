@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Website Layout | COMPANO</title>
+    <link rel="stylesheet" href="/static/css/style_remind.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='flatly.min.css') }}" /> -->
+    <!-- <link rel="stylesheet" href="/static/css/flatly.min.css" /> -->
+
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" /> -->
+
+    <!-- <link rel="stylesheet" href="/static/css/styles.css" /> -->
+
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+    <nav>
+        <div class="menu">
+            <div class="logo">
+                <a href="#">COMPANO</a>
+            </div>
+            <ul>
+                <li><a href="/reminders">Dashboard</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="img"></div>
+
+    <div class = "center">
+
+    <div class="container-fluid" id="wrapper">
+
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4" id="content">
+                <h1>Set Your Personal Reminders</h1>
+
+                <form action="{{ url_for('add_todo') }}" method="POST" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input name="add-todo" type="text" class="form-control"
+                                placeholder="Enter reminders..." aria-label="Todo"
+                                aria-describedby="add-btn">
+                            <input name="add-time" type="time">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default" id="add-btn">ADD</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row t10">
+                    <div class="col-lg-12">
+                        <div class="btn-toolbar">
+                            <!-- <div class="btn-group">
+                                <a type="button" href="{{ url_for('delete_completed') }}" class="btn btn-warning">
+                                    Clear Finished Tasks
+                                </a>
+                            </div> -->
+                            <div class="btn-group">
+                                <a type="button" href="{{ url_for('delete_all') }}" class="btn btn-warning">
+                                    Clear All
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="list-group t20">
+                    {% for todo in todos %}
+                    <a href="{{ url_for('complete_todo', oid=todo._id )}}">
+                        <li class="list-group-item {% if todo.complete %}todo-completed{% endif %}">
+                            {% if (todo.time.split(':')[0]) | int < 10 and (todo.time.split(':')[0]) | int > 0 %}
+                                {{ todo.text + " " + "at" + " " + (todo.time.split(':')[0].split("0")[1]) + ":" + (todo.time.split(':')[1]) + " " + "A.M." }}
+                            {% elif (todo.time.split(':')[0]) == "00" %}
+                                {{ todo.text + " " + "at" + " " + "12" + ":" + (todo.time.split(':')[1]) + " " + "A.M." }}
+                            {% elif 10 <= (todo.time.split(':')[0]) | int < 12 %}
+                                {{ todo.text + " " + "at" + " " + todo.time + " " + "A.M." }}
+                            {% elif todo.time.split(':')[0] == "12" %}
+                                {{ todo.text + " " + "at" + " " + todo.time + " " + "P.M." }}
+                            {% else %}
+                                {{ todo.text + " " + "at" + " " + (todo.time.split(':')[0] | int - 12) | string + ":" + (todo.time.split(':')[1]) + " " + "P.M." }}
+
+                            {% endif %}
+
+                        </li>
+                    </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+</body>
+</html>
+
