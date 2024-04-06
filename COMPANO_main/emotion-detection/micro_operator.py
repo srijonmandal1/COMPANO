@@ -75,7 +75,7 @@ associated_name = user_info.find_one({'device_id':device_ID})['name']
 def tester():
     sd.default.dtype='int32', 'int32'
 
-    openai.api_key = "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"
+    openai.api_key = "Enter_KEY"
 
 
     fs = 44100  # Sample rate
